@@ -9,8 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,7 +33,6 @@ public class DepartmentController {
         Departments departments = service.getAllDepartment();
         return new ResponseEntity<Departments>(departments, HttpStatus.OK);
     }
-//    @GetMapping
     @GetMapping(path = "/{id}")
     public ResponseEntity<DepartmentEntity> getDepartmentById(@PathVariable UUID id){
         Optional<DepartmentEntity> entity = service.getDepartmentById(id);
