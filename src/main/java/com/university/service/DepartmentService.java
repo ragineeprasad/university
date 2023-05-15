@@ -1,5 +1,6 @@
 package com.university.service;
 
+import com.university.collection.Departments;
 import com.university.entity.DepartmentEntity;
 import com.university.repository.DepartmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,9 @@ public class DepartmentService {
     public void createDepartment(DepartmentEntity entity){
         repository.save(entity);
     }
-    public List<DepartmentEntity> getAllDepartment(){
-        return repository.findAll();
+    public Departments getAllDepartment(){
+        List<DepartmentEntity> departmentEntities = repository.findAll();
+        return new Departments(departmentEntities);
     }
     public Optional<DepartmentEntity> getDepartmentById(UUID id){
         return repository.findById(id);

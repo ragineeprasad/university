@@ -1,5 +1,6 @@
 package com.university.controller;
 
+import com.university.collection.Departments;
 import com.university.entity.DepartmentEntity;
 import com.university.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,13 +28,13 @@ public class DepartmentController {
         return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
     }
     @GetMapping
-    public ResponseEntity<List<DepartmentEntity>> getAllDepartment(){
-        List<DepartmentEntity> entities =service.getAllDepartment();
-        return new ResponseEntity<List<DepartmentEntity>>(entities.stream().toList(), HttpStatus.NO_CONTENT);
+    public ResponseEntity<Departments> getAllDepartment(){
+        Departments departments = service.getAllDepartment();
+        return new ResponseEntity<Departments>(departments, HttpStatus.OK);
     }
-    @GetMapping
-    @RequestMapping(path = "/{id}")
-    public ResponseEntity<DepartmentEntity> getDepartmentById(@RequestParam(name = "id") UUID id){
+//    @GetMapping
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<DepartmentEntity> getDepartmentById(@PathVariable UUID id){
         Optional<DepartmentEntity> entity = service.getDepartmentById(id);
         if(entity.isEmpty()){
             return new ResponseEntity<DepartmentEntity>(HttpStatus.BAD_REQUEST);
@@ -40,15 +42,13 @@ public class DepartmentController {
             return new ResponseEntity<DepartmentEntity>(entity.get(), HttpStatus.OK);
         }
     }
-    @DeleteMapping
-    @RequestMapping(path = "/deleteDepartment/{id}")
-    public ResponseEntity<Void> deleteDepartmentById(@RequestParam(name = "id") UUID id){
+    @DeleteMapping(path = "/{id}")
+    public ResponseEntity<Void> deleteDepartmentById(@PathVariable UUID id) {
         service.deleteDepartmentById(id);
-        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-    @PutMapping
-    @RequestMapping(path = "/updateDepartment")
-    public ResponseEntity<Void> updateDepartment(DepartmentEntity entity){
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<Void> updateDepartment(@PathVariable UUID id, @RequestBody DepartmentEntity entity){
         service.updateDepartment(entity);
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
