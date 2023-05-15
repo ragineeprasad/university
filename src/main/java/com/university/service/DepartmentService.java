@@ -31,5 +31,8 @@ public class DepartmentService {
     public void updateDepartment(DepartmentEntity entity){
         repository.save(entity);
     }
+    public boolean existById(UUID id){
+        return repository.existsById(id);
+    }
 
 }
